@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles } from 'lucide-react';
+import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles, QrCode } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
 const tools = [
@@ -36,6 +36,17 @@ const tools = [
     bgColor: 'bg-rose-50',
     textColor: 'text-rose-600',
     category: 'Health',
+  },
+  {
+    id: 'qr-code-generator',
+    title: 'QR Code Generator',
+    description: 'Create high-quality QR codes from any URL or text. Customize colors and download as an image.',
+    icon: QrCode,
+    path: '/qr-code-generator',
+    color: 'from-primary-500 to-primary-600',
+    bgColor: 'bg-primary-50',
+    textColor: 'text-primary-600',
+    category: 'Utility',
   },
 ];
 

@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Calculator, TrendingUp, Heart, Home, Search, Menu, X } from 'lucide-react';
+import { Calculator, TrendingUp, Heart, Home, Search, Menu, X, QrCode } from 'lucide-react';
 import { useState } from 'react';
 
 const navLinks = [
@@ -7,6 +7,7 @@ const navLinks = [
   { path: '/age-calculator', label: 'Age Calculator', icon: Calculator },
   { path: '/sip-calculator', label: 'SIP Calculator', icon: TrendingUp },
   { path: '/bmi-calculator', label: 'BMI Calculator', icon: Heart },
+  { path: '/qr-code-generator', label: 'QR Code Generator', icon: QrCode },
 ];
 
 export default function Layout() {
