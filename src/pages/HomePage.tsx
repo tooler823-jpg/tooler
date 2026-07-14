@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles, QrCode } from 'lucide-react';
+import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles, QrCode, KeyRound } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
 const tools = [
@@ -47,6 +47,17 @@ const tools = [
     bgColor: 'bg-primary-50',
     textColor: 'text-primary-600',
     category: 'Utility',
+  },
+  {
+    id: 'password-generator',
+    title: 'Password Generator',
+    description: 'Create strong, random passwords with customizable length and character types for better security.',
+    icon: KeyRound,
+    path: '/password-generator',
+    color: 'from-primary-500 to-primary-700',
+    bgColor: 'bg-primary-50',
+    textColor: 'text-primary-600',
+    category: 'Security',
   },
 ];
 
