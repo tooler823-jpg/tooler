@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles, QrCode, KeyRound } from 'lucide-react';
+import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles, QrCode, KeyRound, Image as ImageIcon } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
 const tools = [
@@ -58,6 +58,17 @@ const tools = [
     bgColor: 'bg-primary-50',
     textColor: 'text-primary-600',
     category: 'Security',
+  },
+  {
+    id: 'image-compressor',
+    title: 'Image Compressor',
+    description: 'Compress and convert images between JPG, PNG, and WebP. All processing happens locally in your browser.',
+    icon: ImageIcon,
+    path: '/image-compressor',
+    color: 'from-primary-500 to-primary-700',
+    bgColor: 'bg-primary-50',
+    textColor: 'text-primary-600',
+    category: 'Image Tools',
   },
 ];
 

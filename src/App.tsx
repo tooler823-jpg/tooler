@@ -6,6 +6,7 @@ import SIPCalculator from './pages/tools/SIPCalculator';
 import BMICalculator from './pages/tools/BMICalculator';
 import QRCodeGenerator from './pages/tools/QRCodeGenerator';
 import PasswordGenerator from './pages/tools/PasswordGenerator';
+import ImageCompressor from './pages/tools/ImageCompressor';
 import NotFound from './pages/NotFound';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="bmi-calculator" element={<BMICalculator />} />
           <Route path="qr-code-generator" element={<QRCodeGenerator />} />
           <Route path="password-generator" element={<PasswordGenerator />} />
+          <Route path="image-compressor" element={<ImageCompressor />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
