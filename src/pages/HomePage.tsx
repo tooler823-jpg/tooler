@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles, QrCode, KeyRound, Image as ImageIcon } from 'lucide-react';
+import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles, QrCode, KeyRound, Image as ImageIcon, Link2 } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
 const tools = [
@@ -69,6 +69,17 @@ const tools = [
     bgColor: 'bg-primary-50',
     textColor: 'text-primary-600',
     category: 'Image Tools',
+  },
+  {
+    id: 'url-shortener',
+    title: 'URL Shortener',
+    description: 'Turn long, messy links into clean short URLs stored locally in your browser. Copy and share with one click.',
+    icon: Link2,
+    path: '/url-shortener',
+    color: 'from-primary-500 to-primary-700',
+    bgColor: 'bg-primary-50',
+    textColor: 'text-primary-600',
+    category: 'Utility',
   },
 ];
 
