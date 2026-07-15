@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { QrCode, Link2, ArrowLeft, Download, Type, AlertCircle } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
 import AdBanner from '../../components/AdBanner';
@@ -7,8 +7,17 @@ import AdBanner from '../../components/AdBanner';
 type InputMode = 'url' | 'text';
 
 export default function QRCodeGenerator() {
+  const location = useLocation();
   const [mode, setMode] = useState<InputMode>('url');
   const [input, setInput] = useState('');
+
+  useEffect(() => {
+    const state = location.state as { presetUrl?: string } | null;
+    if (state?.presetUrl) {
+      setMode('url');
+      setInput(state.presetUrl);
+    }
+  }, [location.state]);
   const [size, setSize] = useState(256);
   const [fgColor, setFgColor] = useState('#0c4a6e');
   const [bgColor, setBgColor] = useState('#ffffff');

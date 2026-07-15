@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles, QrCode, KeyRound, Image as ImageIcon } from 'lucide-react';
+import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles, QrCode, KeyRound, Image as ImageIcon, Link2, FileText, FileImage } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
 const tools = [
@@ -65,6 +65,39 @@ const tools = [
     description: 'Compress and convert images between JPG, PNG, and WebP. All processing happens locally in your browser.',
     icon: ImageIcon,
     path: '/image-compressor',
+    color: 'from-primary-500 to-primary-700',
+    bgColor: 'bg-primary-50',
+    textColor: 'text-primary-600',
+    category: 'Image Tools',
+  },
+  {
+    id: 'url-shortener',
+    title: 'URL Shortener',
+    description: 'Turn long URLs into clean short links using TinyURL. Copy with one click or send directly to our QR Code Generator.',
+    icon: Link2,
+    path: '/url-shortener',
+    color: 'from-primary-500 to-primary-700',
+    bgColor: 'bg-primary-50',
+    textColor: 'text-primary-600',
+    category: 'Utility',
+  },
+  {
+    id: 'pdf-to-jpeg',
+    title: 'PDF to JPEG Converter',
+    description: 'Convert PDF pages into high-quality JPEG images. Preview each page and download individually or all at once.',
+    icon: FileImage,
+    path: '/pdf-to-jpeg',
+    color: 'from-primary-500 to-primary-700',
+    bgColor: 'bg-primary-50',
+    textColor: 'text-primary-600',
+    category: 'Image Tools',
+  },
+  {
+    id: 'jpeg-to-pdf',
+    title: 'JPEG to PDF Converter',
+    description: 'Combine multiple images into a single PDF document. Drag to reorder, choose page size, orientation, and margins.',
+    icon: FileText,
+    path: '/jpeg-to-pdf',
     color: 'from-primary-500 to-primary-700',
     bgColor: 'bg-primary-50',
     textColor: 'text-primary-600',

@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Calculator, TrendingUp, Heart, Home, Search, Menu, X, QrCode, KeyRound, Image as ImageIcon } from 'lucide-react';
+import { Calculator, TrendingUp, Heart, Home, Search, Menu, X, QrCode, KeyRound, Image as ImageIcon, Link2, FileText, FileImage } from 'lucide-react';
 import { useState } from 'react';
 
 const navLinks = [
@@ -10,6 +10,9 @@ const navLinks = [
   { path: '/qr-code-generator', label: 'QR Code Generator', icon: QrCode },
   { path: '/password-generator', label: 'Password Generator', icon: KeyRound },
   { path: '/image-compressor', label: 'Image Compressor', icon: ImageIcon },
+  { path: '/url-shortener', label: 'URL Shortener', icon: Link2 },
+  { path: '/pdf-to-jpeg', label: 'PDF to JPEG', icon: FileImage },
+  { path: '/jpeg-to-pdf', label: 'JPEG to PDF', icon: FileText },
 ];
 
 export default function Layout() {

@@ -7,6 +7,9 @@ import BMICalculator from './pages/tools/BMICalculator';
 import QRCodeGenerator from './pages/tools/QRCodeGenerator';
 import PasswordGenerator from './pages/tools/PasswordGenerator';
 import ImageCompressor from './pages/tools/ImageCompressor';
+import URLShortener from './pages/tools/URLShortener';
+import PDFToJPEG from './pages/tools/PDFToJPEG';
+import JPEGToPDF from './pages/tools/JPEGToPDF';
 import NotFound from './pages/NotFound';
 
 export default function App() {
@@ -21,6 +24,9 @@ export default function App() {
           <Route path="qr-code-generator" element={<QRCodeGenerator />} />
           <Route path="password-generator" element={<PasswordGenerator />} />
           <Route path="image-compressor" element={<ImageCompressor />} />
+          <Route path="url-shortener" element={<URLShortener />} />
+          <Route path="pdf-to-jpeg" element={<PDFToJPEG />} />
+          <Route path="jpeg-to-pdf" element={<JPEGToPDF />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
