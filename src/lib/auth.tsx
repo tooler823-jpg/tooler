@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
+import { supabase } from './supabase';
 
 type AuthContextValue = {
   session: Session | null;
@@ -40,8 +40,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUp = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) return { error: error.message, needsLogin: false };
-    // If email confirmation is off and a session is returned, user is logged in.
-    // If no session, they need to sign in manually.
     return { error: null, needsLogin: !data.session };
   };
 
