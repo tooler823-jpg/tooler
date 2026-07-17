@@ -1,127 +1,208 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, TrendingUp, Heart, Search, ArrowRight, Sparkles, QrCode, KeyRound, Image as ImageIcon, Link2, FileText, FileImage } from 'lucide-react';
+import {
+  Calculator,
+  TrendingUp,
+  Heart,
+  Search,
+  ArrowRight,
+  Sparkles,
+  QrCode,
+  KeyRound,
+  Image as ImageIcon,
+  Link2,
+  FileText,
+  FileImage,
+  ChevronDown,
+  Wrench,
+  ShieldCheck,
+  FolderArchive,
+  Files,
+} from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
-const tools = [
+type Tool = {
+  id: string;
+  title: string;
+  description: string;
+  icon: typeof Calculator;
+  path: string;
+  bgColor: string;
+  textColor: string;
+};
+
+type Category = {
+  id: string;
+  name: string;
+  description: string;
+  icon: typeof Calculator;
+  gradient: string;
+  bgColor: string;
+  textColor: string;
+  tools: Tool[];
+};
+
+const categories: Category[] = [
   {
-    id: 'age-calculator',
-    title: 'Age Calculator',
-    description: 'Calculate your exact age in years, months, and days. Find out how many days until your next birthday.',
-    icon: Calculator,
-    path: '/age-calculator',
-    color: 'from-blue-500 to-blue-600',
+    id: 'utility-calculators',
+    name: 'Utility Calculators',
+    description: 'Everyday calculators for age, health, and finance.',
+    icon: Wrench,
+    gradient: 'from-blue-500 to-indigo-600',
     bgColor: 'bg-blue-50',
     textColor: 'text-blue-600',
-    category: 'General',
+    tools: [
+      {
+        id: 'age-calculator',
+        title: 'Age Calculator',
+        description: 'Calculate your exact age in years, months, and days. Find out how many days until your next birthday.',
+        icon: Calculator,
+        path: '/age-calculator',
+        bgColor: 'bg-blue-50',
+        textColor: 'text-blue-600',
+      },
+      {
+        id: 'bmi-calculator',
+        title: 'BMI Calculator',
+        description: 'Calculate your Body Mass Index and understand your health metrics with personalized insights.',
+        icon: Heart,
+        path: '/bmi-calculator',
+        bgColor: 'bg-rose-50',
+        textColor: 'text-rose-600',
+      },
+      {
+        id: 'sip-calculator',
+        title: 'SIP Calculator',
+        description: 'Plan your investments with our SIP calculator. Estimate returns and build your wealth strategy.',
+        icon: TrendingUp,
+        path: '/sip-calculator',
+        bgColor: 'bg-emerald-50',
+        textColor: 'text-emerald-600',
+      },
+    ],
   },
   {
-    id: 'sip-calculator',
-    title: 'SIP Calculator',
-    description: 'Plan your investments with our SIP calculator. Estimate returns and build your wealth strategy.',
-    icon: TrendingUp,
-    path: '/sip-calculator',
-    color: 'from-emerald-500 to-emerald-600',
+    id: 'security-web-tools',
+    name: 'Security & Web Tools',
+    description: 'Generate QR codes, strong passwords, and short links.',
+    icon: ShieldCheck,
+    gradient: 'from-emerald-500 to-teal-600',
     bgColor: 'bg-emerald-50',
     textColor: 'text-emerald-600',
-    category: 'Finance',
+    tools: [
+      {
+        id: 'qr-code-generator',
+        title: 'QR Code Generator',
+        description: 'Create high-quality QR codes from any URL or text. Customize colors and download as an image.',
+        icon: QrCode,
+        path: '/qr-code-generator',
+        bgColor: 'bg-primary-50',
+        textColor: 'text-primary-600',
+      },
+      {
+        id: 'password-generator',
+        title: 'Password Generator',
+        description: 'Create strong, random passwords with customizable length and character types for better security.',
+        icon: KeyRound,
+        path: '/password-generator',
+        bgColor: 'bg-primary-50',
+        textColor: 'text-primary-600',
+      },
+      {
+        id: 'url-shortener',
+        title: 'URL Shortener',
+        description: 'Turn long URLs into clean short links using TinyURL. Copy with one click or send directly to our QR Code Generator.',
+        icon: Link2,
+        path: '/url-shortener',
+        bgColor: 'bg-primary-50',
+        textColor: 'text-primary-600',
+      },
+    ],
   },
   {
-    id: 'bmi-calculator',
-    title: 'BMI Calculator',
-    description: 'Calculate your Body Mass Index and understand your health metrics with personalized insights.',
-    icon: Heart,
-    path: '/bmi-calculator',
-    color: 'from-rose-500 to-rose-600',
+    id: 'image-tools',
+    name: 'Image Tools',
+    description: 'Compress and convert images right in your browser.',
+    icon: FolderArchive,
+    gradient: 'from-amber-500 to-orange-600',
+    bgColor: 'bg-amber-50',
+    textColor: 'text-amber-600',
+    tools: [
+      {
+        id: 'image-compressor',
+        title: 'Image Compressor',
+        description: 'Compress and convert images between JPG, PNG, and WebP. All processing happens locally in your browser.',
+        icon: ImageIcon,
+        path: '/image-compressor',
+        bgColor: 'bg-primary-50',
+        textColor: 'text-primary-600',
+      },
+    ],
+  },
+  {
+    id: 'pdf-tools',
+    name: 'PDF Tools',
+    description: 'Convert between PDF and image formats easily.',
+    icon: Files,
+    gradient: 'from-rose-500 to-pink-600',
     bgColor: 'bg-rose-50',
     textColor: 'text-rose-600',
-    category: 'Health',
-  },
-  {
-    id: 'qr-code-generator',
-    title: 'QR Code Generator',
-    description: 'Create high-quality QR codes from any URL or text. Customize colors and download as an image.',
-    icon: QrCode,
-    path: '/qr-code-generator',
-    color: 'from-primary-500 to-primary-600',
-    bgColor: 'bg-primary-50',
-    textColor: 'text-primary-600',
-    category: 'Utility',
-  },
-  {
-    id: 'password-generator',
-    title: 'Password Generator',
-    description: 'Create strong, random passwords with customizable length and character types for better security.',
-    icon: KeyRound,
-    path: '/password-generator',
-    color: 'from-primary-500 to-primary-700',
-    bgColor: 'bg-primary-50',
-    textColor: 'text-primary-600',
-    category: 'Security',
-  },
-  {
-    id: 'image-compressor',
-    title: 'Image Compressor',
-    description: 'Compress and convert images between JPG, PNG, and WebP. All processing happens locally in your browser.',
-    icon: ImageIcon,
-    path: '/image-compressor',
-    color: 'from-primary-500 to-primary-700',
-    bgColor: 'bg-primary-50',
-    textColor: 'text-primary-600',
-    category: 'Image Tools',
-  },
-  {
-    id: 'url-shortener',
-    title: 'URL Shortener',
-    description: 'Turn long URLs into clean short links using TinyURL. Copy with one click or send directly to our QR Code Generator.',
-    icon: Link2,
-    path: '/url-shortener',
-    color: 'from-primary-500 to-primary-700',
-    bgColor: 'bg-primary-50',
-    textColor: 'text-primary-600',
-    category: 'Utility',
-  },
-  {
-    id: 'pdf-to-jpeg',
-    title: 'PDF to JPEG Converter',
-    description: 'Convert PDF pages into high-quality JPEG images. Preview each page and download individually or all at once.',
-    icon: FileImage,
-    path: '/pdf-to-jpeg',
-    color: 'from-primary-500 to-primary-700',
-    bgColor: 'bg-primary-50',
-    textColor: 'text-primary-600',
-    category: 'Image Tools',
-  },
-  {
-    id: 'jpeg-to-pdf',
-    title: 'JPEG to PDF Converter',
-    description: 'Combine multiple images into a single PDF document. Drag to reorder, choose page size, orientation, and margins.',
-    icon: FileText,
-    path: '/jpeg-to-pdf',
-    color: 'from-primary-500 to-primary-700',
-    bgColor: 'bg-primary-50',
-    textColor: 'text-primary-600',
-    category: 'Image Tools',
+    tools: [
+      {
+        id: 'pdf-to-jpeg',
+        title: 'PDF to JPEG Converter',
+        description: 'Convert PDF pages into high-quality JPEG images. Preview each page and download individually or all at once.',
+        icon: FileImage,
+        path: '/pdf-to-jpeg',
+        bgColor: 'bg-primary-50',
+        textColor: 'text-primary-600',
+      },
+      {
+        id: 'jpeg-to-pdf',
+        title: 'JPEG to PDF Converter',
+        description: 'Combine multiple images into a single PDF document. Drag to reorder, choose page size, orientation, and margins.',
+        icon: FileText,
+        path: '/jpeg-to-pdf',
+        bgColor: 'bg-primary-50',
+        textColor: 'text-primary-600',
+      },
+    ],
   },
 ];
 
-const categories = [
-  { name: 'All', count: 3 },
-  { name: 'General', count: 1 },
-  { name: 'Finance', count: 1 },
-  { name: 'Health', count: 1 },
-];
+const allTools = categories.flatMap((c) => c.tools);
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
+    new Set(categories.map((c) => c.id))
+  );
 
-  const filteredTools = tools.filter((tool) => {
-    const matchesSearch = tool.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tool.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = activeCategory === 'All' || tool.category === activeCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredCategories = useMemo(() => {
+    if (!searchQuery.trim()) return categories;
+    const q = searchQuery.toLowerCase();
+    return categories
+      .map((category) => ({
+        ...category,
+        tools: category.tools.filter(
+          (tool) =>
+            tool.title.toLowerCase().includes(q) ||
+            tool.description.toLowerCase().includes(q)
+        ),
+      }))
+      .filter((category) => category.tools.length > 0);
+  }, [searchQuery]);
+
+  const toggleCategory = (id: string) => {
+    setExpandedCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const totalTools = allTools.length;
 
   return (
     <div className="min-h-screen">
@@ -169,71 +250,100 @@ export default function HomePage() {
         <AdBanner format="horizontal" />
       </section>
 
-      {/* Categories and Tools */}
+      {/* Category Sections */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        {/* Category Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8">
-          {categories.map((category) => (
-            <button
-              key={category.name}
-              onClick={() => setActiveCategory(category.name)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                activeCategory === category.name
-                  ? 'bg-primary-600 text-white shadow-md'
-                  : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-              }`}
-            >
-              {category.name} ({category.count})
-            </button>
-          ))}
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+            Explore by Category
+          </h2>
+          <p className="text-gray-600">
+            {totalTools} tools across {categories.length} categories — all free, no sign-up needed.
+          </p>
         </div>
 
-        {/* Tools Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTools.map((tool) => {
-            const Icon = tool.icon;
+        <div className="space-y-5">
+          {filteredCategories.map((category) => {
+            const CatIcon = category.icon;
+            const isExpanded = expandedCategories.has(category.id);
             return (
-              <Link
-                key={tool.id}
-                to={tool.path}
-                className="group relative bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:border-gray-200 transition-all duration-300"
+              <div
+                key={category.id}
+                className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md"
               >
-                {/* Icon */}
-                <div className={`w-14 h-14 ${tool.bgColor} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className={`w-7 h-7 ${tool.textColor}`} />
+                {/* Category Header (clickable) */}
+                <button
+                  onClick={() => toggleCategory(category.id)}
+                  className="w-full flex items-center gap-4 p-5 sm:p-6 text-left group"
+                >
+                  <div className={`w-14 h-14 bg-gradient-to-br ${category.gradient} rounded-2xl flex items-center justify-center shadow-sm flex-shrink-0`}>
+                    <CatIcon className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
+                        {category.name}
+                      </h3>
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${category.bgColor} ${category.textColor}`}>
+                        {category.tools.length} {category.tools.length === 1 ? 'tool' : 'tools'}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-600 mt-1">{category.description}</p>
+                  </div>
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-300 ${
+                      isExpanded ? 'rotate-180' : ''
+                    } group-hover:text-gray-600`}
+                  />
+                </button>
+
+                {/* Expandable Tools */}
+                <div
+                  className={`grid transition-all duration-300 ease-in-out ${
+                    isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-5 sm:px-6 pb-6 pt-1">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {category.tools.map((tool) => {
+                          const Icon = tool.icon;
+                          return (
+                            <Link
+                              key={tool.id}
+                              to={tool.path}
+                              className="group relative bg-gray-50 rounded-xl p-5 border border-gray-100 hover:bg-white hover:shadow-lg hover:border-primary-200 transition-all duration-300"
+                            >
+                              <div className={`w-12 h-12 ${tool.bgColor} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                                <Icon className={`w-6 h-6 ${tool.textColor}`} />
+                              </div>
+                              <h4 className="text-base font-semibold text-gray-900 mb-1.5 group-hover:text-primary-600 transition-colors">
+                                {tool.title}
+                              </h4>
+                              <p className="text-sm text-gray-600 mb-3 leading-relaxed line-clamp-2">
+                                {tool.description}
+                              </p>
+                              <div className="flex items-center gap-1.5 text-sm font-medium text-primary-600">
+                                <span>Use Tool</span>
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                {/* Category Badge */}
-                <span className={`inline-block px-3 py-1 ${tool.bgColor} ${tool.textColor} rounded-full text-xs font-medium mb-3`}>
-                  {tool.category}
-                </span>
-
-                {/* Title */}
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
-                  {tool.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm text-gray-600 mb-4 leading-relaxed">
-                  {tool.description}
-                </p>
-
-                {/* CTA */}
-                <div className="flex items-center gap-2 text-sm font-medium text-primary-600">
-                  <span>Use Tool</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
+              </div>
             );
           })}
         </div>
 
         {/* No Results */}
-        {filteredTools.length === 0 && (
+        {filteredCategories.length === 0 && (
           <div className="text-center py-16">
             <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No tools found</h3>
-            <p className="text-gray-600">Try adjusting your search or category filter.</p>
+            <p className="text-gray-600">Try adjusting your search.</p>
           </div>
         )}
       </section>
