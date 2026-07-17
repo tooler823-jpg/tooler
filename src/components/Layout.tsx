@@ -16,8 +16,8 @@ const navLinks = [
   { path: '/password-generator', label: 'Password', icon: KeyRound },
   { path: '/image-compressor', label: 'Image', icon: ImageIcon },
   { path: '/url-shortener', label: 'URL', icon: Link2 },
-  { path: '/pdf-to-jpeg', label: 'PDF→JPG', icon: FileImage },
-  { path: '/jpeg-to-pdf', label: 'JPG→PDF', icon: FileText },
+  { path: '/pdf-to-jpeg', label: 'PDF to JPG', icon: FileImage },
+  { path: '/jpeg-to-pdf', label: 'JPG to PDF', icon: FileText },
 ];
 
 const footerLinks = [
@@ -43,6 +43,10 @@ export default function Layout() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -131,6 +135,7 @@ export default function Layout() {
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100"
+                aria-label="Toggle menu"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -148,7 +153,6 @@ export default function Layout() {
                   <Link
                     key={link.path}
                     to={link.path}
-                    onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                       isActive ? 'bg-primary-50 text-primary-700' : 'text-gray-600 hover:bg-gray-100'
                     }`}
@@ -168,7 +172,7 @@ export default function Layout() {
                       <span className="text-sm font-medium text-gray-700 truncate">{user.email}</span>
                     </div>
                     <button
-                      onClick={() => { handleSignOut(); setMobileMenuOpen(false); }}
+                      onClick={handleSignOut}
                       className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors"
                     >
                       <LogOut className="w-5 h-5" />
@@ -178,7 +182,6 @@ export default function Layout() {
                 ) : (
                   <Link
                     to="/login"
-                    onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium bg-primary-600 text-white hover:bg-primary-700 transition-colors"
                   >
                     <LogIn className="w-5 h-5" />

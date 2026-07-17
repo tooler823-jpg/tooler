@@ -33,7 +33,7 @@ export default function ImageCompressor() {
       canvas.width = img.width;
       canvas.height = img.height;
       const ctx = canvas.getContext('2d');
-      if (!ctx) return;
+      if (!ctx) { setLoading(false); return; }
       ctx.drawImage(img, 0, 0);
       canvas.toBlob((blob) => {
         if (blob) {
@@ -47,6 +47,7 @@ export default function ImageCompressor() {
         setLoading(false);
       }, `image/${format}`, quality);
     };
+    img.onerror = () => setLoading(false);
     img.src = originalImage;
   };
 

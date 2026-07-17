@@ -63,10 +63,10 @@ export default function PasswordGenerator() {
             <div className="flex-1 bg-gray-50 rounded-xl p-4 font-mono text-lg break-all border border-gray-200">
               {password}
             </div>
-            <button onClick={copy} className="p-3 rounded-xl bg-primary-50 hover:bg-primary-100 text-primary-600 transition-colors" title="Copy">
+            <button onClick={copy} className="p-3 rounded-xl bg-primary-50 hover:bg-primary-100 text-primary-600 transition-colors" title="Copy" aria-label="Copy password">
               {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
             </button>
-            <button onClick={generate} className="p-3 rounded-xl bg-primary-50 hover:bg-primary-100 text-primary-600 transition-colors" title="Regenerate">
+            <button onClick={generate} className="p-3 rounded-xl bg-primary-50 hover:bg-primary-100 text-primary-600 transition-colors" title="Regenerate" aria-label="Regenerate password">
               <RefreshCw className="w-5 h-5" />
             </button>
           </div>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Mail, MessageSquare, User, Send, Loader2, AlertCircle, CheckCircle2, MapPin, Clock } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
 export default function ContactUs() {
   const [name, setName] = useState('');
@@ -18,6 +18,7 @@ export default function ContactUs() {
     setSuccess(false);
     if (!name.trim() || !email.trim() || !message.trim()) { setError('Please fill in all fields.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Please enter a valid email address.'); return; }
+    if (!isSupabaseConfigured) { setError('Messaging is currently unavailable. Please try again later.'); return; }
 
     setLoading(true);
     try {
@@ -61,7 +62,7 @@ export default function ContactUs() {
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
               <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center mb-3"><Clock className="w-5 h-5 text-primary-600" /></div>
               <h3 className="text-sm font-semibold text-gray-900 mb-1">Response Time</h3>
-              <p className="text-sm text-gray-600">Within 24–48 hours</p>
+              <p className="text-sm text-gray-600">Within 24-48 hours</p>
             </div>
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
               <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center mb-3"><MapPin className="w-5 h-5 text-primary-600" /></div>

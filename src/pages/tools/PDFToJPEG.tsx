@@ -24,8 +24,8 @@ export default function PDFToJPEG() {
     try {
       const arrayBuffer = await file.arrayBuffer();
       const pdfjsLib = await import('pdfjs-dist');
-      const worker = await import('pdfjs-dist/build/pdf.worker.min.mjs?url');
-      pdfjsLib.GlobalWorkerOptions.workerSrc = worker.default;
+      const workerUrl = (await import('pdfjs-dist/build/pdf.worker.min.mjs?url')).default;
+      pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
 
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       setPageCount(pdf.numPages);

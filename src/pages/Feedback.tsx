@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Star, Send, Loader2, AlertCircle, CheckCircle2, MessageSquare, ThumbsUp } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 
 const toolOptions = [
@@ -29,6 +29,7 @@ export default function Feedback() {
     setError('');
     if (rating === 0) { setError('Please select a star rating.'); return; }
     if (!message.trim()) { setError('Please write your suggestion or feedback.'); return; }
+    if (!isSupabaseConfigured) { setError('Feedback is currently unavailable. Please try again later.'); return; }
 
     setLoading(true);
     try {

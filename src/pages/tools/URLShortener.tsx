@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Link2, Copy, Check, Loader2, AlertCircle, QrCode } from 'lucide-react';
 import AdBanner from '../../components/AdBanner';
-import { useNavigate } from 'react-router-dom';
 
 export default function URLShortener() {
   const [longUrl, setLongUrl] = useState('');
@@ -83,7 +82,7 @@ export default function URLShortener() {
             <div className="mt-6">
               <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-4 border border-gray-200">
                 <span className="flex-1 font-mono text-sm text-gray-900 break-all">{shortUrl}</span>
-                <button onClick={copy} className="p-2 rounded-lg bg-primary-50 hover:bg-primary-100 text-primary-600 transition-colors">
+                <button onClick={copy} className="p-2 rounded-lg bg-primary-50 hover:bg-primary-100 text-primary-600 transition-colors" aria-label="Copy">
                   {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                 </button>
               </div>

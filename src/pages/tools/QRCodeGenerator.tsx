@@ -23,14 +23,19 @@ export default function QRCodeGenerator() {
 
   const download = async () => {
     if (!qrUrl) return;
-    const res = await fetch(qrUrl);
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'qrcode.png';
-    a.click();
-    URL.revokeObjectURL(url);
+    try {
+      const res = await fetch(qrUrl);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'qrcode.png';
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      // Fallback: open in new tab
+      window.open(qrUrl, '_blank');
+    }
   };
 
   return (

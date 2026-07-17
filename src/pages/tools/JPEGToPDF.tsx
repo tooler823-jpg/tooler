@@ -38,13 +38,21 @@ export default function JPEGToPDF() {
     setImages(next);
   };
 
+  const loadImage = (src: string): Promise<HTMLImageElement> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.src = src;
+    });
+  };
+
   const generatePDF = async () => {
     if (images.length === 0) return;
     setLoading(true);
     try {
       const jsPDF = (await import('jspdf')).default;
       const pageSizes: Record<string, [number, number]> = { a4: [210, 297], letter: [216, 279] };
-      let pdf: InstanceType<typeof jsPDF>;
+      let pdf: InstanceType<typeof jsPDF> | null = null;
 
       for (let i = 0; i < images.length; i++) {
         const img = await loadImage(images[i].dataUrl);
@@ -53,6 +61,13 @@ export default function JPEGToPDF() {
         if (pageSize === 'fit') {
           w = img.width * 0.264583;
           h = img.height * 0.264583;
+          if (i === 0) {
+            pdf = new jsPDF({ orientation: w > h ? 'landscape' : 'portrait', unit: 'mm', format: [w, h] });
+            pdf.addImage(images[i].dataUrl, 'JPEG', 0, 0, w, h);
+          } else {
+            pdf!.addPage([w, h], w > h ? 'landscape' : 'portrait');
+            pdf!.addImage(images[i].dataUrl, 'JPEG', 0, 0, w, h);
+          }
         } else {
           const [pw, ph] = pageSizes[pageSize];
           const isLandscape = orientation === 'landscape';
@@ -73,15 +88,6 @@ export default function JPEGToPDF() {
             pdf!.addPage(pageSize, orientation);
             pdf!.addImage(images[i].dataUrl, 'JPEG', x, y, w, h);
           }
-          continue;
-        }
-
-        if (i === 0) {
-          pdf = new jsPDF({ orientation: w > h ? 'landscape' : 'portrait', unit: 'mm', format: [w, h] });
-          pdf.addImage(images[i].dataUrl, 'JPEG', 0, 0, w, h);
-        } else {
-          pdf!.addPage([w, h], w > h ? 'landscape' : 'portrait');
-          pdf!.addImage(images[i].dataUrl, 'JPEG', 0, 0, w, h);
         }
       }
 
@@ -91,14 +97,6 @@ export default function JPEGToPDF() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const loadImage = (src: string): Promise<HTMLImageElement> => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.src = src;
-    });
   };
 
   return (
@@ -135,7 +133,7 @@ export default function JPEGToPDF() {
                     <GripVertical className="w-5 h-5 text-gray-400 cursor-grab" />
                     <img src={img.dataUrl} alt={img.name} className="w-12 h-12 object-cover rounded" />
                     <span className="flex-1 text-sm text-gray-700 truncate">{i + 1}. {img.name}</span>
-                    <button onClick={() => removeImage(img.id)} className="p-1 rounded hover:bg-gray-200 text-gray-400 hover:text-rose-600 transition-colors">
+                    <button onClick={() => removeImage(img.id)} className="p-1 rounded hover:bg-gray-200 text-gray-400 hover:text-rose-600 transition-colors" aria-label="Remove image">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
