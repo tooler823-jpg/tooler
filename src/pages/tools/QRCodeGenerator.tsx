@@ -33,7 +33,6 @@ export default function QRCodeGenerator() {
       a.click();
       URL.revokeObjectURL(url);
     } catch {
-      // Fallback: open in new tab
       window.open(qrUrl, '_blank');
     }
   };
